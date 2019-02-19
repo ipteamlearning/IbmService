@@ -26,15 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoggingAspect {
 
-    private Map<String, AppLogger> appLoggers = new HashMap<>();
 
     @Around(value = "@within(Loggable) || @annotation(Loggable)")
     public Object traceLogMethod(ProceedingJoinPoint joinPoint) throws Throwable {
-        String loggerName = joinPoint.getTarget().getClass().getCanonicalName();
-        if (!appLoggers.containsKey(loggerName)) {
-            appLoggers.put(joinPoint.getTarget().getClass().getCanonicalName(), new AppLogger(joinPoint.getTarget().getClass()));
-        }
-        AppLogger logger = appLoggers.get(loggerName);
 
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Loggable loggableMethod = signature.getMethod().getAnnotation(Loggable.class);
@@ -42,8 +36,7 @@ public class LoggingAspect {
         boolean logParams = loggableMethod != null ? loggableMethod.params() : loggableClass.params();
         
         StringBuilder logMessage = buildLogMessageMethodArgs(joinPoint, logParams);
-        logger.info("Method start: " + logMessage.toString());
-        log.info("Method start1: " + logMessage.toString());
+        log.info("Method start2: " + logMessage.toString());
 
         // Call the method
         StopWatch stopWatch = new StopWatch();
@@ -53,7 +46,7 @@ public class LoggingAspect {
 
         boolean logReturnValue = loggableMethod != null ? loggableMethod.returnValue() : loggableClass.returnValue();
         logMessage = buildLogMessageReturnValue(joinPoint, stopWatch, retVal, logReturnValue);
-        logger.info("Method end: " + logMessage.toString());
+        log.info("Method end2: " + logMessage.toString());
         
         // Return the return value of the method
         return retVal;
@@ -63,7 +56,7 @@ public class LoggingAspect {
 
     private StringBuilder buildLogMessageMethodArgs(ProceedingJoinPoint joinPoint, boolean logParams) {
         StringBuilder logMessage = new StringBuilder();
-        logMessage.append(joinPoint.getTarget().getClass().getCanonicalName());
+        logMessage.append(joinPoint.getTarget().getClass().getCanonicalName()).append("->");
         logMessage.append(joinPoint.getSignature().getName());
         
         if (logParams) {
@@ -85,7 +78,7 @@ public class LoggingAspect {
 	private StringBuilder buildLogMessageReturnValue(ProceedingJoinPoint joinPoint, StopWatch stopWatch, Object retVal, boolean logReturnValue) {
 		StringBuilder logMessage;
 		logMessage = new StringBuilder();
-		logMessage.append(joinPoint.getTarget().getClass().getCanonicalName());
+		logMessage.append(joinPoint.getTarget().getClass().getCanonicalName()).append("->");
 		logMessage.append(joinPoint.getSignature().getName());
 		if (logReturnValue) {
 			logMessage.append(" retVal = " +  retVal);

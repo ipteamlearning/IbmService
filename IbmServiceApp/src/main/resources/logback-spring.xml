@@ -17,16 +17,16 @@
                 class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
               <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
             </encoder>
-            <file>${LOGS}/app-dev1.log</file>
+            <file>${LOGS}/app-dev.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <fileNamePattern>${LOGS}/archived/app-dev1-%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+                <fileNamePattern>${LOGS}/archived/app-dev-%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
                 <timeBasedFileNamingAndTriggeringPolicy
                         class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                     <maxFileSize>10KB</maxFileSize>
                 </timeBasedFileNamingAndTriggeringPolicy>
             </rollingPolicy>
         </appender>
-        <root level="DEBUG">
+        <root level="INFO">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="ROLLING-FILE"/>
         </root>
