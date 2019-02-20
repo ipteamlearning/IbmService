@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: ibmservice
+
+server:
+  port: 8900
+      
+   
+my:
+ name: saket1   
+---
+spring:
+  profiles: dev
+
+my:
+ name: saket
+
+---
+spring:
+  profiles: test
+  
+my:
+ name: vikrant
+
+---
+
+spring:
+  profiles:
+    active: dev 
+    
+           

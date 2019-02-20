@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.training.ibm.aspects.Loggable;
 import com.training.ibm.exception.TrainingInfoNotFound;
 import com.training.ibm.response.model.TrainingInfoModel;
 import com.training.ibm.service.ITrainingService;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Loggable
 public class TrainingServiceImpl implements ITrainingService {
 
 	
@@ -51,7 +53,7 @@ public class TrainingServiceImpl implements ITrainingService {
 		log.info("get All training info");
 		return trainingList;
 	}
-
+ 
 	
 	public TrainingInfoModel findTrainingInfoById(int id) {
 		log.info("get All training info for an id");
