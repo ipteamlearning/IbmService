@@ -1,0 +1,28 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ibmservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ibmservice
+    spec:
+      containers:
+      - name: ibmservice
+        image: saketcontainerregistry.azurecr.io/ibmservice:v1
+        ports:
+        - containerPort: 8900
+          name: ibmservice
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ibmservice
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8900
+  selector:
+    app: ibmservice
